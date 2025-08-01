@@ -11,12 +11,14 @@
 <body>
   <div class="container">
     <h1><i class="fas fa-lock"></i> Password Strength Checker</h1>
-   <div class="password-wrapper">
-  <input type="password" id="password" placeholder="Enter your password" />
-  <span class="toggle-password"><i class="fas fa-eye"></i></span>
-</div>
+
+    <div class="password-wrapper">
+      <input type="password" id="password" placeholder="Enter your password" />
+      <span class="toggle-password"><i class="fas fa-eye"></i></span>
+    </div>
 
     <p><strong>Strength:</strong> <span id="strength">-</span></p>
+
     <ul id="criteria">
       <li><i class="fas fa-times-circle icon"></i> At least 8 characters</li>
       <li><i class="fas fa-times-circle icon"></i> Contains uppercase letters</li>
@@ -25,6 +27,7 @@
       <li><i class="fas fa-times-circle icon"></i> Has special characters</li>
     </ul>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
