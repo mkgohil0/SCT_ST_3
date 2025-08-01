@@ -1,82 +1,81 @@
-body {
-  margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: radial-gradient(circle, #0e1014, #080b10);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
+document.addEventListener('DOMContentLoaded', () => {
+    // --- Element Selection ---
+    const passwordInput = document.getElementById('passwordInput');
+    const togglePassword = document.getElementById('togglePassword');
+    const strengthMeterFill = document.getElementById('strengthMeterFill');
+    const strengthText = document.getElementById('strengthText');
 
-.container {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  max-width: 350px;
-  width: 100%;
-}
+    // --- Criteria Definition ---
+    // An array of objects, each representing a validation rule.
+    const criteria = [
+        { element: document.getElementById('length'),    regex: /.{8,}/ },
+        { element: document.getElementById('uppercase'), regex: /[A-Z]/ },
+        { element: document.getElementById('lowercase'), regex: /[a-z]/ },
+        { element: document.getElementById('number'),    regex: /[0-9]/ },
+        { element: document.getElementById('special'),   regex: /[^A-Za-z0-9]/ }
+    ];
+    
+    // --- Strength Levels Definition ---
+    // Maps a score (0-5) to a specific UI state (text, color, width).
+    const strengthLevels = {
+        0: { text: '', color: 'transparent', width: '0%' },
+        1: { text: 'Very Weak', color: '#e74c3c', width: '20%' },
+        2: { text: 'Weak', color: '#f1c40f', width: '40%' },
+        3: { text: 'Medium', color: '#2ecc71', width: '60%' },
+        4: { text: 'Strong', color: '#27ae60', width: '80%' },
+        5: { text: 'Very Strong', color: '#50fa7b', width: '100%' }
+    };
 
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+    // --- Core Validation Function ---
+    function validatePassword(password) {
+        let score = 0;
+        
+        // 1. Check individual criteria and update their UI
+        criteria.forEach(criterion => {
+            const icon = criterion.element.querySelector('i');
+            const isValid = criterion.regex.test(password);
+            
+            if (isValid) {
+                score++;
+                criterion.element.classList.add('valid');
+                icon.classList.remove('fa-circle-xmark');
+                icon.classList.add('fa-circle-check');
+            } else {
+                criterion.element.classList.remove('valid');
+                icon.classList.remove('fa-circle-check');
+                icon.classList.add('fa-circle-xmark');
+            }
+        });
 
-.header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+        // 2. Update the overall strength meter based on the score
+        const level = strengthLevels[score];
+        strengthMeterFill.style.width = level.width;
+        strengthMeterFill.style.backgroundColor = level.color;
+        strengthText.textContent = level.text;
+        strengthText.style.color = level.color;
 
-.icon {
-  width: 40px;
-  height: 40px;
-}
+        // Hide the strength text if the input is empty
+        if (password.length === 0) {
+            strengthText.textContent = '';
+        }
+    }
 
-.input-group {
-  position: relative;
-}
+    // --- Event Listeners ---
 
-#password {
-  width: 100%;
-  padding: 12px;
-  padding-right: 40px;
-  border: none;
-  border-radius: 8px;
-  background: #1c1e22;
-  color: #fff;
-  font-size: 16px;
-}
+    // Listen for input in the password field to validate in real-time
+    passwordInput.addEventListener('input', () => {
+        validatePassword(passwordInput.value);
+    });
 
-#togglePassword {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #aaa;
-  font-size: 18px;
-}
+    // Listen for clicks on the eye icon to toggle password visibility
+    togglePassword.addEventListener('click', () => {
+        const isPassword = passwordInput.getAttribute('type') === 'password';
+        passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+        togglePassword.classList.toggle('fa-eye');
+        togglePassword.classList.toggle('fa-eye-slash');
+    });
 
-.checks {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.checks li {
-  margin: 6px 0;
-  font-size: 14px;
-}
-
-.valid {
-  color: #0f0;
-}
-
-.invalid {
-  color: #f00;
-}
+    // --- Initial State ---
+    // Run validation once on page load for the empty state.
+    validatePassword('');
+});
