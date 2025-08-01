@@ -1,79 +1,83 @@
-body {
+* {
   margin: 0;
   padding: 0;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to right, #f8f9fa, #e0eafc);
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1d1e22, #23272f);
+  color: #fff;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
 }
 
 .container {
-  background: white;
+  background: rgba(255, 255, 255, 0.05);
   padding: 30px;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  width: 350px;
+  backdrop-filter: blur(12px);
 }
 
 h1 {
-  font-size: 24px;
-  color: #333;
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 22px;
+  color: #f0f0f0;
+}
+
+.input-box {
+  position: relative;
   margin-bottom: 20px;
 }
 
-.password-wrapper {
-  position: relative;
+input[type="password"],
+input[type="text"] {
   width: 100%;
-}
-
-.password-wrapper input {
-  width: 100%;
-  padding: 12px 40px 12px 12px;
-  margin-bottom: 16px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  padding: 10px 40px 10px 15px;
   font-size: 16px;
-  box-sizing: border-box;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background: #2c2f36;
+  color: #fff;
 }
 
-.toggle-password {
+#togglePassword {
   position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
+  right: 10px;
+  top: 9px;
+  background: none;
+  border: none;
+  color: #aaa;
   cursor: pointer;
-  color: #666;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 #strength {
-  font-weight: bold;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #ccc;
 }
 
-ul {
+.criteria-list {
   list-style: none;
-  padding-left: 0;
-  text-align: left;
 }
 
-li {
-  margin: 8px 0;
-  font-size: 16px;
+.criteria-list li {
+  margin-bottom: 8px;
+  font-size: 14px;
+  transition: 0.3s ease;
 }
 
-.icon {
-  margin-right: 10px;
-  color: crimson;
+.valid {
+  color: #4CAF50;
 }
 
-.pass {
-  color: green;
-}
-
-.fail {
-  color: crimson;
+.invalid {
+  color: #ff5e5e;
 }
