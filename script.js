@@ -1,7 +1,8 @@
 const passwordInput = document.getElementById("password");
 const strengthDisplay = document.getElementById("strength");
 const criteriaList = document.querySelectorAll("#criteria li");
-const togglePassword = document.querySelector(".toggle-password i");
+const togglePassword = document.getElementById("togglePassword");
+const eyeIcon = document.getElementById("eyeIcon");
 
 passwordInput.addEventListener("input", function () {
   const value = passwordInput.value;
@@ -40,9 +41,17 @@ passwordInput.addEventListener("input", function () {
   }
 });
 
+// Show/Hide Password
 togglePassword.addEventListener("click", () => {
   const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
   passwordInput.setAttribute("type", type);
-  togglePassword.classList.toggle("fa-eye");
-  togglePassword.classList.toggle("fa-eye-slash");
+
+  // Toggle icon
+  if (type === "text") {
+    eyeIcon.classList.remove("fa-eye");
+    eyeIcon.classList.add("fa-eye-slash");
+  } else {
+    eyeIcon.classList.remove("fa-eye-slash");
+    eyeIcon.classList.add("fa-eye");
+  }
 });
