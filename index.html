@@ -4,14 +4,184 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Strength Checker</title>
-    <!-- Link to your CSS file -->
-    <link rel="stylesheet" href="style.css">
     <!-- Link to Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- Link to Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* * -------------------
+         * General Body Styles
+         * -------------------
+         */
+        body {
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            /* Creates a dark background with a subtle radial gradient for depth */
+            background-color: #0d1120;
+            background-image: radial-gradient(circle at 10% 10%, rgba(100, 120, 255, 0.1) 0%, transparent 30%),
+                              radial-gradient(circle at 90% 80%, rgba(100, 120, 255, 0.1) 0%, transparent 30%);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+        }
+
+        /* * -------------------
+         * The Main "Glass" Card
+         * -------------------
+         */
+        .checker-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 2rem;
+            /* Semi-transparent background for the glass effect */
+            background: rgba(30, 38, 70, 0.4); 
+            border-radius: 24px;
+            /* A subtle border enhances the glassy edge */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            /* Shadow for a floating effect */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            /* The key property for the frosted glass look! */
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px); /* For Safari compatibility */
+            transition: all 0.3s ease;
+        }
+
+        /* * -------------------
+         * Card Header
+         * -------------------
+         */
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-header .fa-lock {
+            font-size: 2rem;
+            color: #5c87ff; /* A vibrant blue for the lock icon */
+        }
+
+        .card-header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* * -------------------
+         * Password Input Group
+         * -------------------
+         */
+        .input-group {
+            position: relative;
+            margin-bottom: 1rem; /* Adjusted margin */
+        }
+
+        #passwordInput {
+            width: 100%;
+            padding: 14px 45px 14px 15px; /* Right padding to avoid text overlapping icon */
+            border: 1px solid transparent;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.25);
+            color: #fff;
+            font-size: 1rem;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        #passwordInput::placeholder {
+            color: #a0a0a0;
+        }
+
+        #passwordInput:focus {
+            outline: none;
+            background-color: rgba(0, 0, 0, 0.3);
+            border-color: rgba(92, 135, 255, 0.5);
+        }
+
+        #togglePassword {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #a0a0a0;
+            transition: color 0.3s;
+        }
+        
+        #togglePassword:hover {
+            color: #fff;
+        }
+
+        /* * -------------------
+         * Strength Meter
+         * -------------------
+         */
+        .strength-meter {
+            height: 8px;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.25);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .strength-meter-fill {
+            height: 100%;
+            width: 0%; /* Start at 0 */
+            background-color: transparent;
+            border-radius: 8px;
+            transition: width 0.4s ease, background-color 0.4s ease;
+        }
+
+        .strength-text {
+            text-align: right;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #a0a0a0;
+            height: 1.2em; /* Prevents layout shift when text appears/disappears */
+            margin-bottom: 1.5rem;
+            transition: color 0.4s ease;
+        }
+
+        /* * -------------------
+         * Strength Criteria List
+         * -------------------
+         */
+        .strength-criteria ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .strength-criteria li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            /* Default to red/invalid color */
+            color: #ff8080;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+        }
+
+        /* The 'valid' class we will add with JavaScript */
+        .strength-criteria li.valid {
+            color: #50fa7b; /* Bright green for valid criteria */
+        }
+
+        .strength-criteria li i {
+            font-size: 1.25rem;
+            width: 20px; /* Ensures alignment */
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 
@@ -26,7 +196,7 @@
             <i class="fa-solid fa-eye" id="togglePassword"></i>
         </div>
 
-        <!-- Strength Meter -->
+        <!-- NEW: Strength Meter -->
         <div class="strength-meter">
             <div id="strengthMeterFill" class="strength-meter-fill"></div>
         </div>
@@ -58,7 +228,82 @@
         </div>
     </div>
 
-    <!-- Link to your JavaScript file -->
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Element Selection ---
+            const passwordInput = document.getElementById('passwordInput');
+            const togglePassword = document.getElementById('togglePassword');
+            const strengthMeterFill = document.getElementById('strengthMeterFill');
+            const strengthText = document.getElementById('strengthText');
+
+            // --- Criteria Definition ---
+            const criteria = [
+                { element: document.getElementById('length'),    regex: /.{8,}/ },
+                { element: document.getElementById('uppercase'), regex: /[A-Z]/ },
+                { element: document.getElementById('lowercase'), regex: /[a-z]/ },
+                { element: document.getElementById('number'),    regex: /[0-9]/ },
+                { element: document.getElementById('special'),   regex: /[^A-Za-z0-9]/ }
+            ];
+            
+            // --- Strength Levels Definition ---
+            const strengthLevels = {
+                0: { text: '', color: 'transparent', width: '0%' },
+                1: { text: 'Very Weak', color: '#e74c3c', width: '20%' },
+                2: { text: 'Weak', color: '#f1c40f', width: '40%' },
+                3: { text: 'Medium', color: '#2ecc71', width: '60%' },
+                4: { text: 'Strong', color: '#27ae60', width: '80%' },
+                5: { text: 'Very Strong', color: '#50fa7b', width: '100%' }
+            };
+
+            // --- Core Validation Function ---
+            function validatePassword(password) {
+                let score = 0;
+                
+                // 1. Check individual criteria
+                criteria.forEach(criterion => {
+                    const icon = criterion.element.querySelector('i');
+                    const isValid = criterion.regex.test(password);
+                    
+                    if (isValid) {
+                        score++;
+                        criterion.element.classList.add('valid');
+                        icon.classList.remove('fa-circle-xmark');
+                        icon.classList.add('fa-circle-check');
+                    } else {
+                        criterion.element.classList.remove('valid');
+                        icon.classList.remove('fa-circle-check');
+                        icon.classList.add('fa-circle-xmark');
+                    }
+                });
+
+                // 2. Update strength meter
+                const level = strengthLevels[score];
+                strengthMeterFill.style.width = level.width;
+                strengthMeterFill.style.backgroundColor = level.color;
+                strengthText.textContent = level.text;
+                strengthText.style.color = level.color;
+
+                // Handle case where input is empty
+                 if (password.length === 0) {
+                    strengthText.textContent = '';
+                }
+            }
+
+            // --- Event Listeners ---
+            passwordInput.addEventListener('input', () => {
+                validatePassword(passwordInput.value);
+            });
+
+            togglePassword.addEventListener('click', () => {
+                const isPassword = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
+                togglePassword.classList.toggle('fa-eye');
+                togglePassword.classList.toggle('fa-eye-slash');
+            });
+
+            // --- Initial State ---
+            validatePassword('');
+        });
+    </script>
 </body>
 </html>
