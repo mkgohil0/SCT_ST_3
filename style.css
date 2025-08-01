@@ -1,83 +1,82 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
-
 body {
-  background: linear-gradient(135deg, #1d1e22, #23272f);
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: radial-gradient(circle, #0e1014, #080b10);
   color: #fff;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
 .container {
   background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
   padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
-  width: 350px;
-  backdrop-filter: blur(12px);
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 25px;
-  font-size: 22px;
-  color: #f0f0f0;
-}
-
-.input-box {
-  position: relative;
-  margin-bottom: 20px;
-}
-
-input[type="password"],
-input[type="text"] {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.37);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  max-width: 350px;
   width: 100%;
-  padding: 10px 40px 10px 15px;
-  font-size: 16px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+}
+
+.input-group {
+  position: relative;
+}
+
+#password {
+  width: 100%;
+  padding: 12px;
+  padding-right: 40px;
   border: none;
   border-radius: 8px;
-  outline: none;
-  background: #2c2f36;
+  background: #1c1e22;
   color: #fff;
+  font-size: 16px;
 }
 
 #togglePassword {
   position: absolute;
+  top: 50%;
   right: 10px;
-  top: 9px;
-  background: none;
-  border: none;
-  color: #aaa;
+  transform: translateY(-50%);
   cursor: pointer;
-  font-size: 16px;
+  color: #aaa;
+  font-size: 18px;
 }
 
-#strength {
-  margin-bottom: 15px;
-  font-size: 14px;
-  color: #ccc;
-}
-
-.criteria-list {
+.checks {
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
-.criteria-list li {
-  margin-bottom: 8px;
+.checks li {
+  margin: 6px 0;
   font-size: 14px;
-  transition: 0.3s ease;
 }
 
 .valid {
-  color: #4CAF50;
+  color: #0f0;
 }
 
 .invalid {
-  color: #ff5e5e;
+  color: #f00;
 }
