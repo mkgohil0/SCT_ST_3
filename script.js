@@ -1,72 +1,44 @@
-const passwordInput = document.getElementById('password');
-const resultText = document.getElementById('result');
-const progressBar = document.getElementById('progress');
-const tips = document.getElementById('tips').getElementsByTagName('li');
+const passwordInput = document.getElementById("password");
+const strengthDisplay = document.getElementById("strength");
+const criteriaList = document.querySelectorAll("#criteria li");
+const togglePassword = document.querySelector(".toggle-password i");
 
-passwordInput.addEventListener('input', function () {
-  const password = passwordInput.value;
-
+passwordInput.addEventListener("input", function () {
+  const value = passwordInput.value;
   let strength = 0;
 
-  // Criteria
-  const length = password.length >= 8;
-  const upper = /[A-Z]/.test(password);
-  const lower = /[a-z]/.test(password);
-  const number = /[0-9]/.test(password);
-  const special = /[^A-Za-z0-9]/.test(password);
+  const checks = [
+    value.length >= 8,
+    /[A-Z]/.test(value),
+    /[a-z]/.test(value),
+    /[0-9]/.test(value),
+    /[^A-Za-z0-9]/.test(value)
+  ];
 
-  // Update checklist ✅ or ❌
-  tips[0].textContent = (length ? "✅" : "❌") + " At least 8 characters";
-  tips[1].textContent = (upper ? "✅" : "❌") + " Contains uppercase letters";
-  tips[2].textContent = (lower ? "✅" : "❌") + " Contains lowercase letters";
-  tips[3].textContent = (number ? "✅" : "❌") + " Includes numbers";
-  tips[4].textContent = (special ? "✅" : "❌") + " Has special characters";
+  checks.forEach((check, index) => {
+    const icon = criteriaList[index].querySelector("i");
+    if (check) {
+      icon.className = "fas fa-check-circle icon pass";
+      strength++;
+    } else {
+      icon.className = "fas fa-times-circle icon fail";
+    }
+  });
 
-  // Count how many are true
-  if (length) strength++;
-  if (upper) strength++;
-  if (lower) strength++;
-  if (number) strength++;
-  if (special) strength++;
-
-  // Set message and color
-  let message = '';
-  let color = 'red';
-  let width = '20%';
-
-  switch (strength) {
-    case 5:
-      message = 'Very Strong 💪';
-      color = '#00ff00';
-      width = '100%';
-      break;
-    case 4:
-      message = 'Strong 😊';
-      color = '#66ff66';
-      width = '80%';
-      break;
-    case 3:
-      message = 'Medium 😐';
-      color = '#ffff00';
-      width = '60%';
-      break;
-    case 2:
-      message = 'Weak 😟';
-      color = '#ff9900';
-      width = '40%';
-      break;
-    default:
-      message = 'Very Weak 😣';
-      color = 'red';
-      width = '20%';
-      break;
+  if (value === "") {
+    strengthDisplay.textContent = "-";
+    strengthDisplay.style.color = "black";
+  } else if (strength <= 2) {
+    strengthDisplay.textContent = "Weak";
+    strengthDisplay.style.color = "crimson";
+  } else if (strength === 3 || strength === 4) {
+    strengthDisplay.textContent = "Medium";
+    strengthDisplay.style.color = "orange";
+  } else {
+    strengthDisplay.textContent = "Strong";
+    strengthDisplay.style.color = "green";
   }
-
-  resultText.textContent = `Strength: ${message}`;
-  progressBar.style.width = width;
-  progressBar.style.backgroundColor = color;
-
-const togglePassword = document.querySelector(".toggle-password i");
+});
 
 togglePassword.addEventListener("click", () => {
   const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
