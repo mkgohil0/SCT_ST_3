@@ -25,13 +25,28 @@ h1 {
   margin-bottom: 20px;
 }
 
-input {
+.password-wrapper {
+  position: relative;
   width: 100%;
-  padding: 12px;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
   margin-bottom: 16px;
   border: 1px solid #ccc;
   border-radius: 8px;
   font-size: 16px;
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 18px;
 }
 
 #strength {
@@ -60,27 +75,4 @@ li {
 
 .fail {
   color: crimson;
-  .password-wrapper {
-  position: relative;
-  width: 100%;
-}
-
-.password-wrapper input {
-  width: 100%;
-  padding: 12px 40px 12px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 16px;
-}
-
-.toggle-password {
-  position: absolute;
-  top: 50%;
-  right: 12px;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #888;
-  font-size: 18px;
-}
-
 }
