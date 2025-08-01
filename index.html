@@ -2,27 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Password Strength Checker</title>
   <link rel="stylesheet" href="style.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
-    <h2>🔐 Password Strength Checker</h2>
+    <h1><i class="fas fa-lock"></i> Password Strength Checker</h1>
     <input type="password" id="password" placeholder="Enter your password" />
-    <div class="progress-bar">
-      <div id="progress"></div>
-    </div>
-    <p class="result" id="result">Strength: -</p>
-    <ul id="tips">
-      <li>❌ At least 8 characters</li>
-      <li>❌ Contains uppercase letters</li>
-      <li>❌ Contains lowercase letters</li>
-      <li>❌ Includes numbers</li>
-      <li>❌ Has special characters</li>
+    <p><strong>Strength:</strong> <span id="strength">-</span></p>
+    <ul id="criteria">
+      <li><i class="fas fa-times-circle icon"></i> At least 8 characters</li>
+      <li><i class="fas fa-times-circle icon"></i> Contains uppercase letters</li>
+      <li><i class="fas fa-times-circle icon"></i> Contains lowercase letters</li>
+      <li><i class="fas fa-times-circle icon"></i> Includes numbers</li>
+      <li><i class="fas fa-times-circle icon"></i> Has special characters</li>
     </ul>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
