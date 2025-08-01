@@ -65,4 +65,12 @@ passwordInput.addEventListener('input', function () {
   resultText.textContent = `Strength: ${message}`;
   progressBar.style.width = width;
   progressBar.style.backgroundColor = color;
+
+const togglePassword = document.querySelector(".toggle-password i");
+
+togglePassword.addEventListener("click", () => {
+  const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+  passwordInput.setAttribute("type", type);
+  togglePassword.classList.toggle("fa-eye");
+  togglePassword.classList.toggle("fa-eye-slash");
 });
