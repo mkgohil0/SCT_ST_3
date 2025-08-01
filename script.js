@@ -1,57 +1,87 @@
 const passwordInput = document.getElementById("password");
-const strengthDisplay = document.getElementById("strength");
-const criteriaList = document.querySelectorAll("#criteria li");
 const togglePassword = document.getElementById("togglePassword");
-const eyeIcon = document.getElementById("eyeIcon");
 
-passwordInput.addEventListener("input", function () {
+const lengthEl = document.getElementById("length");
+const uppercaseEl = document.getElementById("uppercase");
+const lowercaseEl = document.getElementById("lowercase");
+const numberEl = document.getElementById("number");
+const specialEl = document.getElementById("special");
+const strengthText = document.getElementById("strength");
+
+passwordInput.addEventListener("input", () => {
   const value = passwordInput.value;
-  let strength = 0;
 
-  const checks = [
-    value.length >= 8,
-    /[A-Z]/.test(value),
-    /[a-z]/.test(value),
-    /[0-9]/.test(value),
-    /[^A-Za-z0-9]/.test(value)
-  ];
+  let strengthScore = 0;
 
-  checks.forEach((check, index) => {
-    const icon = criteriaList[index].querySelector("i");
-    if (check) {
-      icon.className = "fas fa-check-circle icon pass";
-      strength++;
-    } else {
-      icon.className = "fas fa-times-circle icon fail";
-    }
-  });
-
-  if (value === "") {
-    strengthDisplay.textContent = "-";
-    strengthDisplay.style.color = "black";
-  } else if (strength <= 2) {
-    strengthDisplay.textContent = "Weak";
-    strengthDisplay.style.color = "crimson";
-  } else if (strength === 3 || strength === 4) {
-    strengthDisplay.textContent = "Medium";
-    strengthDisplay.style.color = "orange";
+  // Length
+  if (value.length >= 8) {
+    lengthEl.classList.remove("invalid");
+    lengthEl.classList.add("valid");
+    lengthEl.textContent = "✔ At least 8 characters";
+    strengthScore++;
   } else {
-    strengthDisplay.textContent = "Strong";
-    strengthDisplay.style.color = "green";
+    lengthEl.classList.add("invalid");
+    lengthEl.classList.remove("valid");
+    lengthEl.textContent = "✖ At least 8 characters";
   }
+
+  // Uppercase
+  if (/[A-Z]/.test(value)) {
+    uppercaseEl.classList.remove("invalid");
+    uppercaseEl.classList.add("valid");
+    uppercaseEl.textContent = "✔ Contains uppercase letters";
+    strengthScore++;
+  } else {
+    uppercaseEl.classList.add("invalid");
+    uppercaseEl.classList.remove("valid");
+    uppercaseEl.textContent = "✖ Contains uppercase letters";
+  }
+
+  // Lowercase
+  if (/[a-z]/.test(value)) {
+    lowercaseEl.classList.remove("invalid");
+    lowercaseEl.classList.add("valid");
+    lowercaseEl.textContent = "✔ Contains lowercase letters";
+    strengthScore++;
+  } else {
+    lowercaseEl.classList.add("invalid");
+    lowercaseEl.classList.remove("valid");
+    lowercaseEl.textContent = "✖ Contains lowercase letters";
+  }
+
+  // Number
+  if (/\d/.test(value)) {
+    numberEl.classList.remove("invalid");
+    numberEl.classList.add("valid");
+    numberEl.textContent = "✔ Includes numbers";
+    strengthScore++;
+  } else {
+    numberEl.classList.add("invalid");
+    numberEl.classList.remove("valid");
+    numberEl.textContent = "✖ Includes numbers";
+  }
+
+  // Special Character
+  if (/[^A-Za-z0-9]/.test(value)) {
+    specialEl.classList.remove("invalid");
+    specialEl.classList.add("valid");
+    specialEl.textContent = "✔ Has special characters";
+    strengthScore++;
+  } else {
+    specialEl.classList.add("invalid");
+    specialEl.classList.remove("valid");
+    specialEl.textContent = "✖ Has special characters";
+  }
+
+  // Strength text
+  const levels = ["Very Weak", "Weak", "Medium", "Strong", "Very Strong"];
+  strengthText.textContent = `Strength: ${levels[strengthScore] || "-"}`;
 });
 
-// Show/Hide Password
+// Toggle Password Visibility
 togglePassword.addEventListener("click", () => {
-  const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+  const type =
+    passwordInput.getAttribute("type") === "password" ? "text" : "password";
   passwordInput.setAttribute("type", type);
-
-  // Toggle icon
-  if (type === "text") {
-    eyeIcon.classList.remove("fa-eye");
-    eyeIcon.classList.add("fa-eye-slash");
-  } else {
-    eyeIcon.classList.remove("fa-eye-slash");
-    eyeIcon.classList.add("fa-eye");
-  }
+  togglePassword.textContent = type === "password" ? "👁" : "🙈";
 });
