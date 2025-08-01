@@ -1,87 +1,77 @@
-const passwordInput = document.getElementById("password");
-const togglePassword = document.getElementById("togglePassword");
+const passwordInput = document.getElementById('password');
+const togglePassword = document.getElementById('togglePassword');
 
-const lengthEl = document.getElementById("length");
-const uppercaseEl = document.getElementById("uppercase");
-const lowercaseEl = document.getElementById("lowercase");
-const numberEl = document.getElementById("number");
-const specialEl = document.getElementById("special");
-const strengthText = document.getElementById("strength");
+const strengthText = document.getElementById('strength');
+const checks = {
+  length: document.getElementById('length'),
+  uppercase: document.getElementById('uppercase'),
+  lowercase: document.getElementById('lowercase'),
+  number: document.getElementById('number'),
+  special: document.getElementById('special'),
+};
 
-passwordInput.addEventListener("input", () => {
+passwordInput.addEventListener('input', () => {
   const value = passwordInput.value;
 
-  let strengthScore = 0;
+  let strength = 0;
 
   // Length
   if (value.length >= 8) {
-    lengthEl.classList.remove("invalid");
-    lengthEl.classList.add("valid");
-    lengthEl.textContent = "✔ At least 8 characters";
-    strengthScore++;
+    checks.length.classList.add('valid');
+    checks.length.classList.remove('invalid');
+    strength++;
   } else {
-    lengthEl.classList.add("invalid");
-    lengthEl.classList.remove("valid");
-    lengthEl.textContent = "✖ At least 8 characters";
+    checks.length.classList.add('invalid');
+    checks.length.classList.remove('valid');
   }
 
   // Uppercase
   if (/[A-Z]/.test(value)) {
-    uppercaseEl.classList.remove("invalid");
-    uppercaseEl.classList.add("valid");
-    uppercaseEl.textContent = "✔ Contains uppercase letters";
-    strengthScore++;
+    checks.uppercase.classList.add('valid');
+    checks.uppercase.classList.remove('invalid');
+    strength++;
   } else {
-    uppercaseEl.classList.add("invalid");
-    uppercaseEl.classList.remove("valid");
-    uppercaseEl.textContent = "✖ Contains uppercase letters";
+    checks.uppercase.classList.add('invalid');
+    checks.uppercase.classList.remove('valid');
   }
 
   // Lowercase
   if (/[a-z]/.test(value)) {
-    lowercaseEl.classList.remove("invalid");
-    lowercaseEl.classList.add("valid");
-    lowercaseEl.textContent = "✔ Contains lowercase letters";
-    strengthScore++;
+    checks.lowercase.classList.add('valid');
+    checks.lowercase.classList.remove('invalid');
+    strength++;
   } else {
-    lowercaseEl.classList.add("invalid");
-    lowercaseEl.classList.remove("valid");
-    lowercaseEl.textContent = "✖ Contains lowercase letters";
+    checks.lowercase.classList.add('invalid');
+    checks.lowercase.classList.remove('valid');
   }
 
-  // Number
-  if (/\d/.test(value)) {
-    numberEl.classList.remove("invalid");
-    numberEl.classList.add("valid");
-    numberEl.textContent = "✔ Includes numbers";
-    strengthScore++;
+  // Numbers
+  if (/[0-9]/.test(value)) {
+    checks.number.classList.add('valid');
+    checks.number.classList.remove('invalid');
+    strength++;
   } else {
-    numberEl.classList.add("invalid");
-    numberEl.classList.remove("valid");
-    numberEl.textContent = "✖ Includes numbers";
+    checks.number.classList.add('invalid');
+    checks.number.classList.remove('valid');
   }
 
-  // Special Character
+  // Special characters
   if (/[^A-Za-z0-9]/.test(value)) {
-    specialEl.classList.remove("invalid");
-    specialEl.classList.add("valid");
-    specialEl.textContent = "✔ Has special characters";
-    strengthScore++;
+    checks.special.classList.add('valid');
+    checks.special.classList.remove('invalid');
+    strength++;
   } else {
-    specialEl.classList.add("invalid");
-    specialEl.classList.remove("valid");
-    specialEl.textContent = "✖ Has special characters";
+    checks.special.classList.add('invalid');
+    checks.special.classList.remove('valid');
   }
 
-  // Strength text
-  const levels = ["Very Weak", "Weak", "Medium", "Strong", "Very Strong"];
-  strengthText.textContent = `Strength: ${levels[strengthScore] || "-"}`;
+  // Set strength text
+  const labels = ['Very Weak', 'Weak', 'Medium', 'Strong', 'Very Strong'];
+  strengthText.textContent = `Strength: ${labels[strength - 1] || '-'}`;
 });
 
-// Toggle Password Visibility
-togglePassword.addEventListener("click", () => {
-  const type =
-    passwordInput.getAttribute("type") === "password" ? "text" : "password";
-  passwordInput.setAttribute("type", type);
-  togglePassword.textContent = type === "password" ? "👁" : "🙈";
+// Toggle password visibility
+togglePassword.addEventListener('click', () => {
+  const type = passwordInput.getAttribute('type');
+  passwordInput.setAttribute('type', type === 'password' ? 'text' : 'password');
 });
