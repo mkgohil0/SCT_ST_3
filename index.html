@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Strength Checker</title>
-    <!-- Link to Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <!-- External icon stylesheet removed to prevent loading errors -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
@@ -17,10 +16,9 @@
         body {
             margin: 0;
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            /* Creates a dark background with a subtle radial gradient for depth */
             background-color: #0d1120;
-            background-image: radial-gradient(circle at 10% 10%, rgba(100, 120, 255, 0.1) 0%, transparent 30%),
-                              radial-gradient(circle at 90% 80%, rgba(100, 120, 255, 0.1) 0%, transparent 30%);
+            background-image: radial-gradient(circle at 10% 10%, rgba(100, 120, 255, 0.1) 0%, transparent, 30%),
+                              radial-gradient(circle at 90% 80%, rgba(100, 120, 255, 0.1) 0%, transparent, 30%);
             color: #fff;
             display: flex;
             justify-content: center;
@@ -38,16 +36,12 @@
             width: 100%;
             max-width: 400px;
             padding: 2rem;
-            /* Semi-transparent background for the glass effect */
             background: rgba(30, 38, 70, 0.4); 
             border-radius: 24px;
-            /* A subtle border enhances the glassy edge */
             border: 1px solid rgba(255, 255, 255, 0.15);
-            /* Shadow for a floating effect */
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            /* The key property for the frosted glass look! */
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px); /* For Safari compatibility */
+            -webkit-backdrop-filter: blur(12px);
             transition: all 0.3s ease;
         }
 
@@ -62,9 +56,10 @@
             margin-bottom: 2rem;
         }
 
-        .card-header .fa-lock {
-            font-size: 2rem;
-            color: #5c87ff; /* A vibrant blue for the lock icon */
+        .header-icon {
+            width: 32px;
+            height: 32px;
+            color: #5c87ff;
         }
 
         .card-header h1 {
@@ -79,18 +74,18 @@
          */
         .input-group {
             position: relative;
-            margin-bottom: 1rem; /* Adjusted margin */
+            margin-bottom: 1rem;
         }
 
         #passwordInput {
             width: 100%;
-            padding: 14px 45px 14px 15px; /* Right padding to avoid text overlapping icon */
+            padding: 14px 45px 14px 15px;
             border: 1px solid transparent;
             border-radius: 10px;
             background-color: rgba(0, 0, 0, 0.25);
             color: #fff;
             font-size: 1rem;
-            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            box-sizing: border-box;
             transition: background-color 0.3s, border-color 0.3s;
         }
 
@@ -104,17 +99,18 @@
             border-color: rgba(92, 135, 255, 0.5);
         }
 
-        #togglePassword {
+        .toggle-password-icon {
             position: absolute;
             top: 50%;
             right: 15px;
             transform: translateY(-50%);
             cursor: pointer;
             color: #a0a0a0;
-            transition: color 0.3s;
+            width: 20px;
+            height: 20px;
         }
-        
-        #togglePassword:hover {
+
+        .toggle-password-icon:hover {
             color: #fff;
         }
 
@@ -132,7 +128,7 @@
 
         .strength-meter-fill {
             height: 100%;
-            width: 0%; /* Start at 0 */
+            width: 0%;
             background-color: transparent;
             border-radius: 8px;
             transition: width 0.4s ease, background-color 0.4s ease;
@@ -143,7 +139,7 @@
             font-size: 0.85rem;
             font-weight: 500;
             color: #a0a0a0;
-            height: 1.2em; /* Prevents layout shift when text appears/disappears */
+            height: 1.2em;
             margin-bottom: 1.5rem;
             transition: color 0.4s ease;
         }
@@ -165,21 +161,18 @@
             display: flex;
             align-items: center;
             gap: 0.75rem;
-            /* Default to red/invalid color */
             color: #ff8080;
             font-size: 0.95rem;
             transition: color 0.3s ease;
         }
 
-        /* The 'valid' class we will add with JavaScript */
         .strength-criteria li.valid {
-            color: #50fa7b; /* Bright green for valid criteria */
+            color: #50fa7b;
         }
 
-        .strength-criteria li i {
-            font-size: 1.25rem;
-            width: 20px; /* Ensures alignment */
-            text-align: center;
+        .criteria-icon {
+            width: 20px;
+            height: 20px;
         }
     </style>
 </head>
@@ -187,16 +180,18 @@
 
     <div class="checker-card">
         <div class="card-header">
-            <i class="fa-solid fa-lock"></i>
+            <!-- REPLACED FONT AWESOME ICON WITH INLINE SVG -->
+            <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5L12 1zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"></path></svg>
             <h1>Password Strength Checker</h1>
         </div>
         
         <div class="input-group">
             <input type="password" id="passwordInput" placeholder="Enter your password">
-            <i class="fa-solid fa-eye" id="togglePassword"></i>
+            <!-- REPLACED FONT AWESOME ICON WITH INLINE SVGS -->
+            <svg id="togglePasswordShow" class="toggle-password-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5C21.27 7.61 17 4.5 12 4.5zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path></svg>
+            <svg id="togglePasswordHide" class="toggle-password-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"></path></svg>
         </div>
 
-        <!-- NEW: Strength Meter -->
         <div class="strength-meter">
             <div id="strengthMeterFill" class="strength-meter-fill"></div>
         </div>
@@ -205,23 +200,29 @@
         <div class="strength-criteria">
             <ul>
                 <li id="length">
-                    <i class="fa-solid fa-circle-xmark"></i>
+                    <!-- REPLACED FONT AWESOME ICON WITH INLINE SVGS -->
+                    <svg class="criteria-icon icon-invalid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.93 13.5l-1.41 1.41L12 13.41l-3.52 3.5-1.41-1.41L10.59 12 7.07 8.48l1.41-1.41L12 10.59l3.52-3.51 1.41 1.41L13.41 12l3.52 3.5z"></path></svg>
+                    <svg class="criteria-icon icon-valid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
                     <span>At least 8 characters</span>
                 </li>
                 <li id="uppercase">
-                    <i class="fa-solid fa-circle-xmark"></i>
+                    <svg class="criteria-icon icon-invalid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.93 13.5l-1.41 1.41L12 13.41l-3.52 3.5-1.41-1.41L10.59 12 7.07 8.48l1.41-1.41L12 10.59l3.52-3.51 1.41 1.41L13.41 12l3.52 3.5z"></path></svg>
+                    <svg class="criteria-icon icon-valid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
                     <span>Contains uppercase letters</span>
                 </li>
                 <li id="lowercase">
-                    <i class="fa-solid fa-circle-xmark"></i>
+                    <svg class="criteria-icon icon-invalid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.93 13.5l-1.41 1.41L12 13.41l-3.52 3.5-1.41-1.41L10.59 12 7.07 8.48l1.41-1.41L12 10.59l3.52-3.51 1.41 1.41L13.41 12l3.52 3.5z"></path></svg>
+                    <svg class="criteria-icon icon-valid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
                     <span>Contains lowercase letters</span>
                 </li>
                 <li id="number">
-                    <i class="fa-solid fa-circle-xmark"></i>
+                    <svg class="criteria-icon icon-invalid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.93 13.5l-1.41 1.41L12 13.41l-3.52 3.5-1.41-1.41L10.59 12 7.07 8.48l1.41-1.41L12 10.59l3.52-3.51 1.41 1.41L13.41 12l3.52 3.5z"></path></svg>
+                    <svg class="criteria-icon icon-valid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
                     <span>Includes numbers</span>
                 </li>
                 <li id="special">
-                    <i class="fa-solid fa-circle-xmark"></i>
+                    <svg class="criteria-icon icon-invalid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.93 13.5l-1.41 1.41L12 13.41l-3.52 3.5-1.41-1.41L10.59 12 7.07 8.48l1.41-1.41L12 10.59l3.52-3.51 1.41 1.41L13.41 12l3.52 3.5z"></path></svg>
+                    <svg class="criteria-icon icon-valid" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
                     <span>Has special characters</span>
                 </li>
             </ul>
@@ -230,13 +231,12 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Element Selection ---
             const passwordInput = document.getElementById('passwordInput');
-            const togglePassword = document.getElementById('togglePassword');
+            const toggleShow = document.getElementById('togglePasswordShow');
+            const toggleHide = document.getElementById('togglePasswordHide');
             const strengthMeterFill = document.getElementById('strengthMeterFill');
             const strengthText = document.getElementById('strengthText');
 
-            // --- Criteria Definition ---
             const criteria = [
                 { element: document.getElementById('length'),    regex: /.{8,}/ },
                 { element: document.getElementById('uppercase'), regex: /[A-Z]/ },
@@ -245,7 +245,6 @@
                 { element: document.getElementById('special'),   regex: /[^A-Za-z0-9]/ }
             ];
             
-            // --- Strength Levels Definition ---
             const strengthLevels = {
                 0: { text: '', color: 'transparent', width: '0%' },
                 1: { text: 'Very Weak', color: '#e74c3c', width: '20%' },
@@ -255,53 +254,57 @@
                 5: { text: 'Very Strong', color: '#50fa7b', width: '100%' }
             };
 
-            // --- Core Validation Function ---
             function validatePassword(password) {
                 let score = 0;
                 
-                // 1. Check individual criteria
                 criteria.forEach(criterion => {
-                    const icon = criterion.element.querySelector('i');
+                    const iconValid = criterion.element.querySelector('.icon-valid');
+                    const iconInvalid = criterion.element.querySelector('.icon-invalid');
                     const isValid = criterion.regex.test(password);
                     
                     if (isValid) {
                         score++;
                         criterion.element.classList.add('valid');
-                        icon.classList.remove('fa-circle-xmark');
-                        icon.classList.add('fa-circle-check');
+                        iconValid.style.display = 'block';
+                        iconInvalid.style.display = 'none';
                     } else {
                         criterion.element.classList.remove('valid');
-                        icon.classList.remove('fa-circle-check');
-                        icon.classList.add('fa-circle-xmark');
+                        iconValid.style.display = 'none';
+                        iconInvalid.style.display = 'block';
                     }
                 });
 
-                // 2. Update strength meter
                 const level = strengthLevels[score];
                 strengthMeterFill.style.width = level.width;
                 strengthMeterFill.style.backgroundColor = level.color;
                 strengthText.textContent = level.text;
                 strengthText.style.color = level.color;
 
-                // Handle case where input is empty
                  if (password.length === 0) {
                     strengthText.textContent = '';
                 }
             }
 
-            // --- Event Listeners ---
             passwordInput.addEventListener('input', () => {
                 validatePassword(passwordInput.value);
             });
 
-            togglePassword.addEventListener('click', () => {
+            function toggleVisibility() {
                 const isPassword = passwordInput.getAttribute('type') === 'password';
-                passwordInput.setAttribute('type', isPassword ? 'text' : 'password');
-                togglePassword.classList.toggle('fa-eye');
-                togglePassword.classList.toggle('fa-eye-slash');
-            });
+                if (isPassword) {
+                    passwordInput.setAttribute('type', 'text');
+                    toggleShow.style.display = 'none';
+                    toggleHide.style.display = 'block';
+                } else {
+                    passwordInput.setAttribute('type', 'password');
+                    toggleShow.style.display = 'block';
+                    toggleHide.style.display = 'none';
+                }
+            }
 
-            // --- Initial State ---
+            toggleShow.addEventListener('click', toggleVisibility);
+            toggleHide.addEventListener('click', toggleVisibility);
+
             validatePassword('');
         });
     </script>
